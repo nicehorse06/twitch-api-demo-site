@@ -1,0 +1,25 @@
+div.channel-block {
+  width:300px;
+  height:220px;
+}
+
+div.channel-image {
+  height: 150px;
+  background-image: url("https://static-cdn.jtvnw.net/ttv-static/404_preview-320x180.jpg");
+}
+
+div.channel-info {
+  background-color: #000;
+  height: 70px;
+  color:#999;
+  display: flex;
+  align-items: center;
+}
+
+img.channel-info-photo {
+  height: 50px;
+  border-radius: 50%;
+  margin: 0px 5px;
+}
+
+div.channel-info-name {}
