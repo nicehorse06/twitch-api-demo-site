@@ -14,9 +14,15 @@ div.background {
 }
 
 div.channel-block {
-  padding: 20px;
+  margin: 20px;
   width:300px;
   height:220px;
+  transition: 0.5s;
+}
+
+div.channel-block:hover {
+  box-shadow: 5px 10px 18px #000;
+  filter: contrast(200%);
 }
 
 div.channel-image {
