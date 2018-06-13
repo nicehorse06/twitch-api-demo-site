@@ -1,0 +1,22 @@
+{
+  "name": "twitch-demo",
+  "version": "1.0.0",
+  "description": "reference URL: [從新手到中手：前端工程加強班](https://github.com/aszx87410/frontend-intermediate-course)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicehorse06/practice-frontend-intermediate-course.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicehorse06/practice-frontend-intermediate-course/issues"
+  },
+  "homepage": "https://github.com/nicehorse06/practice-frontend-intermediate-course#readme",
+  "dependencies": {
+    "stylus": "^0.54.5"
+  }
+}

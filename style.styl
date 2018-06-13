@@ -1,0 +1,51 @@
+background-url = "https://lolstatic-a.akamaihd.net/lolkit/1.1.6/resources/images/bg-default.jpg"
+
+black-color = #000
+
+body 
+  margin: 0px
+  background-image: url(background-url)
+  background-attachment: fixed
+  overflow: auto
+
+div.background 
+  display: flex
+  flex-wrap: wrap
+  width: 100%
+  height: 100%
+  background-color: rgba(0, 0, 0, 0.5)
+  overflow: auto
+
+
+div.channel-block 
+  margin: 20px
+  width: 300px
+  height: 220px
+  transition: 0.5s
+
+
+div.channel-block:hover 
+  box-shadow: 5px 10px 18px black-color
+  filter: contrast(200%) brightness(150%)
+
+
+channel-image-url = "https://static-cdn.jtvnw.net/ttv-static/404_preview-320x180.jpg"
+div.channel-image 
+  height: 150px
+  background-image: url(channel-image-url)
+
+
+div.channel-info 
+  background-color: black-color
+  height: 70px
+  color: #999
+  display: flex
+  align-items: center
+
+
+img.channel-info-photo 
+  height: 50px
+  border-radius: @height
+  margin: 0px 5px
+
+
