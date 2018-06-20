@@ -14,7 +14,7 @@ div.background {
 }
 div.channel-block {
   margin: 20px;
-  width: 300px;
+  width: 320px;
   height: 220px;
   transition: 0.5s;
 }
@@ -23,7 +23,7 @@ div.channel-block:hover {
   filter: contrast(200%) brightness(150%);
 }
 div.channel-image {
-  height: 150px;
+  height: 180px;
   background-image: url("https://static-cdn.jtvnw.net/ttv-static/404_preview-320x180.jpg");
 }
 div.channel-info {
