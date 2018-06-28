@@ -1,0 +1,59 @@
+body {
+  margin: 0px;
+  background-image: url("https://lolstatic-a.akamaihd.net/lolkit/1.1.6/resources/images/bg-default.jpg");
+  background-attachment: fixed;
+  overflow: auto;
+}
+div.container {
+  min-height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  overflow: auto;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1000px;
+  margin: 0 auto;
+  justify-content:space-around;
+}
+div.col {
+  width: 300px;
+  transition: 0.5s;
+  margin: 20px 0px;
+}
+
+.preview img {
+  width: 100%;
+}
+
+div.col:hover {
+  box-shadow: 5px 10px 18px #000;
+  filter: contrast(200%) brightness(150%);
+}
+div.bottom {
+  background-color: #000;
+  height: 70px;
+  color: #999;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.channel_name {
+  white-space: nowrap;  /* 不換行 */
+  overflow: hidden; /* 超出文字隱藏 */
+  width: 200px; /* 限制寬度 */
+  text-overflow: ellipsis;   /* 超出寬度文字變 ... */
+}
+
+.avatar{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+}
