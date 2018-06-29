@@ -53,6 +53,7 @@ let appendData = () => {
       const { streams } = data;
       const row = document.querySelector('.row');
       for (let stream of streams) {
+        //插入element string到row的最後一個子項
         row.insertAdjacentHTML('beforeend', getColumn(stream));
       }
       currentPage += 20;
@@ -62,10 +63,10 @@ let appendData = () => {
 
 // 準備用來增加HTML的載入動作
 let getColumn = (stream) => {
-  const placeholder = 'https://static-cdn.jtvnw.net/ttv-static/404_preview-320x180.jpg'
   return `
-    <div class='col' id='block-1'>
+    <div class='col'>
       <div class='preview'>
+        <div class='placeholder'></div>
         <img src='${stream.preview.medium}' />
       </div>
       <div class='bottom'>
