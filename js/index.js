@@ -67,7 +67,7 @@ let getColumn = (stream) => {
     <div class='col'>
       <div class='preview'>
         <div class='placeholder'></div>
-        <img src='${stream.preview.medium}' />
+        <img src='${stream.preview.medium}' onload='this.style.opacity=1'/>
       </div>
       <div class='bottom'>
         <div class="avatar">
