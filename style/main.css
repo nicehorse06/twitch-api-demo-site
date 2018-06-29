@@ -15,12 +15,12 @@ div.container {
   flex-wrap: wrap;
   width: 1000px;
   margin: 0 auto;
-  justify-content:space-around;
+  padding-top: 20px;
 }
 div.col {
   width: 300px;
   transition: 0.5s;
-  margin: 20px 0px;
+  margin: 10px;
 }
 
 .preview img {
