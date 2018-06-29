@@ -26,6 +26,7 @@ div.col {
 
 .preview {
   position: relative;
+  height: 168.75px;   /*都沒圖片的時候可以撐住版面，高度等同於圖片的*/
 }
 
 .preview img {
