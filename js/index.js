@@ -35,13 +35,19 @@ window.onload = () => {
 let sendHttpRequest = (callback) => {
   const client_id = '80stfocyvne9dzzxyvz4j4x9yl75bd';
   const game = 'League%20of%20Legends';
-  let targetUrl = `https://api.twitch.tv/kraken/streams/?game=${game}&client_id=${client_id}&offset=${currentPage}`;
+  let basetUrl = 'https://api.twitch.tv/kraken/streams/';
+  let urlPara = {
+    'game' : game,
+    'client_id' : client_id,
+    'offset' : currentPage,
+  }
+  let targetUrl = url_maker(basetUrl, urlPara);
+  
   let request = new XMLHttpRequest();
   isLoading = true;
   request.open("GET", targetUrl);
   request.onload = () => {
     data = JSON.parse(request.responseText);
-    console.log(callback);
     callback(null, data);
   };
   request.send();
@@ -80,4 +86,17 @@ let getColumn = (stream) => {
       </div>
     </div>  
     `
+}
+
+let url_maker = (url, para) => {
+  let first_item = true;
+  for(let key of Object.keys(para)){
+    let prefix = '&'
+    if(first_item){
+      prefix = '?'
+      first_item = false
+    }
+    url += `${prefix}${key}=${para[key]}` 
+  }
+  return url
 }
