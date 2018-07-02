@@ -77,3 +77,22 @@ div.bottom {
 .avatar img {
   width: 100%;
 }
+
+.title, .lang-choice {
+  color: #fff
+}
+
+.title {
+  width: 50%;
+  font-size: 40px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.lang-choice{
+  display: flex;
+  width: 150px;
+  margin: 0 auto;
+  justify-content: space-around;
+}
