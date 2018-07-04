@@ -4,7 +4,9 @@
   "description": "reference URL: [從新手到中手：前端工程加強班](https://github.com/aszx87410/frontend-intermediate-course)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --mode development --open --hot",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,13 @@
   "homepage": "https://github.com/nicehorse06/practice-frontend-intermediate-course#readme",
   "dependencies": {
     "stylus": "^0.54.5"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^4.14.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
   }
 }
