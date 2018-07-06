@@ -1,3 +1,5 @@
+import i18n from './i18n/index'
+
 //當前頁數
 let currentPage = 0;
 //確保每次ajax玩才會再發一次
@@ -12,6 +14,10 @@ window.onload = () => {
 
   // 渲染 title
   render_title_by_lang()
+
+  // 綁定 click 事件，addEventListener 需要帶入函式，所以先用一個匿名函示包著帶進去
+  document.querySelector(".zh-tw").addEventListener("click", ()=>{return change_language_status('zh-tw')});
+  document.querySelector(".en").addEventListener("click", ()=>{return change_language_status('en')});
 
   // 滑動時執行該函式
   window.onscroll = () => {
@@ -45,7 +51,7 @@ window.onload = () => {
 
 // 依據語言更改 Title 的值
 let render_title_by_lang = () => {
-  document.querySelector('.title').innerHTML = I18N[language_status].TITLE
+  document.querySelector('.title').innerHTML = i18n[language_status].TITLE
 }
 
 // 在改變語言時間移除舊有語言的 element
@@ -58,6 +64,7 @@ let remove_all_child_element = () => {
 
 // 改變語言，需要連帶改變 title 和 
 let change_language_status = (language) => {
+  console.log('translate')
   language_status = language
   render_title_by_lang()
   remove_all_child_element()
@@ -98,8 +105,7 @@ let sendHttpRequest = (callback) => {
   isLoading = true;
   request.open("GET", targetUrl);
   request.onload = () => {
-    data = JSON.parse(request.responseText);
-    callback(null, data);
+    callback(null, JSON.parse(request.responseText));
   };
   request.send();
 };

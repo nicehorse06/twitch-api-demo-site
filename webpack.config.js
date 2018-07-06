@@ -4,17 +4,13 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: 'babel-loader',
-        query: {
-            presets: ['es2015']
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env']
+          }
         }
       }
     ]
   },
-  resolve: {
-    alias: { 
-    }
-  },
-  plugins: [
-  ]
 }
