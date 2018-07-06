@@ -1,4 +1,5 @@
 import i18n from './i18n/index'
+import {scroll_condition} from './util'
 
 //當前頁數
 let currentPage = 0;
@@ -21,26 +22,8 @@ window.onload = () => {
 
   // 滑動時執行該函式
   window.onscroll = () => {
-    // 頁面倒底前預先載入的距離
-    const pre_load_height = 200;
-
-    // scrollTop 為因為捲動而讓畫面跑到視窗上面的距離
-    let scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-
-    // height 為 window height，該網頁總高度
-    const body = document.body;
-    const html = document.documentElement;
-    const height = Math.max(
-      body.offsetHeight,
-      body.scrollHeight,
-      html.clientHeight,
-      html.offsetHeight,
-      html.scrollHeight
-    );
-
-    // infinite scroll 為偵測 scrollTop + window height === document height 時觸發載入
-    // window.innerHeight 為使用者視窗的高度
-    if (scrollTop + window.innerHeight >= height - pre_load_height) {
+    // 符合到底的條件
+    if (scroll_condition.onButtom()) {
       // 如果沒在載入的話，做載入的動作
       if (!isLoading) {
         appendData();
@@ -64,7 +47,6 @@ let remove_all_child_element = () => {
 
 // 改變語言，需要連帶改變 title 和 
 let change_language_status = (language) => {
-  console.log('translate')
   language_status = language
   render_title_by_lang()
   remove_all_child_element()
