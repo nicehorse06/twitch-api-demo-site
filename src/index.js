@@ -1,5 +1,5 @@
 import i18n from './i18n/index'
-import {scroll_condition} from './util'
+import {scroll_condition, TwitchApi} from './util'
 
 //當前頁數
 let currentPage = 0;
@@ -58,7 +58,7 @@ let change_language_status = (language) => {
 
 // 用來結合 HttpRequest 和 插入 HTML 內容的函式
 let appendData = () => {
-  sendHttpRequest((err, data) => {
+  let twitchApi = new TwitchApi(language_status,(err, data) => {
     const { streams } = data;
     const row = document.querySelector('.row');
     for (let stream of streams) {
@@ -68,29 +68,8 @@ let appendData = () => {
     currentPage += 20;
     isLoading = false;
   });
+  twitchApi.sendHttpRequest()
 }
-
-// 發出 ajax
-let sendHttpRequest = (callback) => {
-  const client_id = '80stfocyvne9dzzxyvz4j4x9yl75bd';
-  const game = 'League%20of%20Legends';
-  let basetUrl = 'https://api.twitch.tv/kraken/streams/';
-  let urlPara = {
-    'game': game,
-    'client_id': client_id,
-    'offset': currentPage,
-    'language': language_status,
-  }
-  let targetUrl = url_maker(basetUrl, urlPara);
-
-  let request = new XMLHttpRequest();
-  isLoading = true;
-  request.open("GET", targetUrl);
-  request.onload = () => {
-    callback(null, JSON.parse(request.responseText));
-  };
-  request.send();
-};
 
 // 準備用來增加HTML的載入動作
 let getColumn = (stream) => {
@@ -111,18 +90,4 @@ let getColumn = (stream) => {
       </div>
     </div>  
     `
-}
-
-// 把 api url跟參數合併的函式
-let url_maker = (url, para) => {
-  let first_item = true;
-  for (let key of Object.keys(para)) {
-    let prefix = '&'
-    if (first_item) {
-      prefix = '?'
-      first_item = false
-    }
-    url += `${prefix}${key}=${para[key]}`
-  }
-  return url
 }
