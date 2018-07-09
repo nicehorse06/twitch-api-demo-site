@@ -1,3 +1,4 @@
+import i18n from './i18n/index'
 class Scroll {
     constructor() {
         // 頁面倒底前預先載入的距離
@@ -76,7 +77,22 @@ class TwitchApi {
 let twitchApi = new TwitchApi()
 
 
+class I18n_handler{
+    constructor() {
+        // 初始語言
+        this.status = 'zh-tw'
+    }
+
+    //依據語言更改 Title 的值
+    render_title_by_lang(){
+        document.querySelector('.title').innerHTML = i18n[this.status].TITLE
+    }
+}
+let i18n_handler = new I18n_handler()
+
+
 export {
     scroll_condition,
-    twitchApi
+    twitchApi,
+    i18n_handler
 }

@@ -1,15 +1,11 @@
-import i18n from './i18n/index'
-import {scroll_condition, twitchApi} from './util'
-
-// 初始語言
-let language_status = 'zh-tw';
+import {scroll_condition, twitchApi, i18n_handler} from './util'
 
 window.onload = () => {
   // 首次載入前20項
   appendData();
 
   // 渲染 title
-  render_title_by_lang()
+  i18n_handler.render_title_by_lang()
 
   // 綁定 click 事件，addEventListener 需要帶入函式，所以先用一個匿名函示包著帶進去
   document.querySelector(".zh-tw").addEventListener("click", ()=>{return change_language_status('zh-tw')});
@@ -27,10 +23,6 @@ window.onload = () => {
   }
 }
 
-// 依據語言更改 Title 的值
-let render_title_by_lang = () => {
-  document.querySelector('.title').innerHTML = i18n[language_status].TITLE
-}
 
 // 在改變語言時間移除舊有語言的 element
 let remove_all_child_element = () => {
@@ -42,8 +34,8 @@ let remove_all_child_element = () => {
 
 // 改變語言，需要連帶改變 title 和 
 let change_language_status = (language) => {
-  language_status = language
-  render_title_by_lang()
+  i18n_handler.status = language
+  i18n_handler.render_title_by_lang()
   remove_all_child_element()
 
   // init_page_status
@@ -53,7 +45,7 @@ let change_language_status = (language) => {
 
 // 用來結合 HttpRequest 和 插入 HTML 內容的函式
 let appendData = () => {
-  twitchApi.sendHttpRequest(language_status,(err, data) => {
+  twitchApi.sendHttpRequest(i18n_handler.status,(err, data) => {
     const { streams } = data;
     const row = document.querySelector('.row');
     for (let stream of streams) {
