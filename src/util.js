@@ -8,20 +8,20 @@ class Scroll {
 
     // window height 為該網頁總高度
     window_height() {
-        const body = document.body;
-        const html = document.documentElement;
+        const body = document.body
+        const html = document.documentElement
         return Math.max(
             body.offsetHeight,
             body.scrollHeight,
             html.clientHeight,
             html.offsetHeight,
             html.scrollHeight
-        );
+        )
     }
 
     // scrollTop 為因為捲動而讓畫面跑到視窗上面的距離
     scrollTop() {
-        return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+        return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
     }
 
     // infinite scroll 為偵測 scrollTop + window height === document height 時觸發載入
@@ -42,7 +42,7 @@ class TwitchApi {
 
     // 把 api url跟參數合併的函式
     url_maker(url, para) {
-        let first_item = true;
+        let first_item = true
         for (let key of Object.keys(para)) {
             let prefix = '&'
             if (first_item) {
@@ -61,15 +61,19 @@ class TwitchApi {
             'offset': this.currentPage,
             'language': language_status,
         }
-        let targetUrl = this.url_maker(Twitch.basetUrl, urlPara);
+        let targetUrl = this.url_maker(Twitch.basetUrl, urlPara)
 
-        let request = new XMLHttpRequest();
-        this.isLoading = true;
-        request.open("GET", targetUrl);
+        let request = new XMLHttpRequest()
+        this.isLoading = true
+        request.open("GET", targetUrl)
         request.onload = () => {
-            callback(null, JSON.parse(request.responseText));
-        };
-        request.send();
+            callback(null, JSON.parse(request.responseText))
+        }
+        request.send()
+    }
+
+    increase_current_page(){
+        this.currentPage += 20
     }
 }
 let twitchApi = new TwitchApi()
@@ -113,9 +117,9 @@ class Render_handler {
 
     // 在改變語言時移除舊有語言的直撥方匡
     remove_all_child_element() {
-        let node = document.querySelector(".row");
+        let node = document.querySelector(".row")
         while (node.firstChild) {
-            node.removeChild(node.firstChild);
+            node.removeChild(node.firstChild)
         }
     }
 }

@@ -1,16 +1,10 @@
-import {scroll_condition, twitchApi, i18n_handler, render_handler} from './util'
-import {Language} from './constants'
+import { scroll_condition, twitchApi, i18n_handler, render_handler } from './util'
+import { Language } from './constants'
 
 window.onload = () => {
-  // 首次載入前20項
-  appendData();
+  let page_status_handler = new Page_status_handler()
 
-  // 渲染 title
-  i18n_handler.render_title_by_lang()
-
-  // 綁定 click 事件，addEventListener 需要帶入函式，所以先用一個匿名函示包著帶進去
-  document.querySelector(".zh-tw").addEventListener("click", ()=>{return change_language_status(Language.TW)});
-  document.querySelector(".en").addEventListener("click", ()=>{return change_language_status(Language.EN)});
+  page_status_handler.init()
 
   // 滑動時執行該函式
   window.onscroll = () => {
@@ -18,33 +12,57 @@ window.onload = () => {
     if (scroll_condition.onButtom()) {
       // 如果沒在載入的話，做載入的動作
       if (!twitchApi.isLoading) {
-        appendData();
+        page_status_handler.appendData()
       }
     }
   }
 }
 
-// 改變語言，需要連帶改變 title 和 
-let change_language_status = (language) => {
-  i18n_handler.status = language
-  i18n_handler.render_title_by_lang()
-  render_handler.remove_all_child_element()
+class Page_status_handler {
+  // 初始化
+  init() {
+    // 首次載入前20項
+    this.appendData()
 
-  // init_page_status
-  twitchApi.currentPage = 0
-  appendData()
-}
+    // 渲染 title
+    i18n_handler.render_title_by_lang()
 
-// 用來結合 HttpRequest 和 插入 HTML 內容的函式
-let appendData = () => {
-  twitchApi.sendHttpRequest(i18n_handler.status,(err, data) => {
-    const { streams } = data;
-    const row = document.querySelector('.row');
-    for (let stream of streams) {
-      //插入element string到row的最後一個子項
-      row.insertAdjacentHTML('beforeend', render_handler.getColumn(stream));
+    // 綁定 click事件
+    // toFix 如果改變語言時會重複綁定，可偵測是否綁定過
+    this.add_click_event_on_language_button()
+  }
+
+  /* 
+    綁定click事件，addEventListener需要帶入函式，所以用一個匿名函示包著帶進去
+    綁定的button其class名稱必須等於Langusge的key
+  */
+  add_click_event_on_language_button(){
+    for(let key of Object.keys(Language)){
+      document.querySelector(`.${Language[key]}`).addEventListener("click", () => { return this.change_language(Language[key]) })
     }
-    twitchApi.currentPage += 20;
-    twitchApi.isLoading = false;
-  });
+  }
+
+  // 改變語言，需要連帶改變 title 和 
+  change_language(language) {
+
+    i18n_handler.status = language
+    render_handler.remove_all_child_element()
+    twitchApi.currentPage = 0
+
+    this.init()
+  }
+
+  // 增加直撥匡，用來結合 HttpRequest 和 插入 HTML 內容的函式
+  appendData() {
+    twitchApi.increase_current_page()
+    twitchApi.sendHttpRequest(i18n_handler.status, (err, data) => {
+      const { streams } = data
+      const row = document.querySelector('.row')
+      for (let stream of streams) {
+        //插入element string到row的最後一個子項
+        row.insertAdjacentHTML('beforeend', render_handler.getColumn(stream))
+      }
+      twitchApi.isLoading = false
+    })
+  }
 }
