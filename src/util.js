@@ -1,4 +1,5 @@
 import i18n from './i18n/index'
+import { Language, Twitch } from './constants'
 class Scroll {
     constructor() {
         // 頁面倒底前預先載入的距離
@@ -53,18 +54,15 @@ class TwitchApi {
         return url
     }
 
-    sendHttpRequest(language_status, callback){
-        const client_id = '80stfocyvne9dzzxyvz4j4x9yl75bd';
-        const game = 'League%20of%20Legends';
-        let basetUrl = 'https://api.twitch.tv/kraken/streams/';
+    sendHttpRequest(language_status, callback) {
         let urlPara = {
-            'game': game,
-            'client_id': client_id,
+            'game': Twitch.gameInfo,
+            'client_id': Twitch.client_id,
             'offset': this.currentPage,
             'language': language_status,
         }
-        let targetUrl = this.url_maker(basetUrl, urlPara);
-    
+        let targetUrl = this.url_maker(Twitch.basetUrl, urlPara);
+
         let request = new XMLHttpRequest();
         this.isLoading = true;
         request.open("GET", targetUrl);
@@ -77,22 +75,56 @@ class TwitchApi {
 let twitchApi = new TwitchApi()
 
 
-class I18n_handler{
+class I18n_handler {
     constructor() {
         // 初始語言
-        this.status = 'zh-tw'
+        this.status = Language.TW
     }
 
     //依據語言更改 Title 的值
-    render_title_by_lang(){
+    render_title_by_lang() {
         document.querySelector('.title').innerHTML = i18n[this.status].TITLE
     }
 }
 let i18n_handler = new I18n_handler()
 
 
+class Render_handler {
+    // 增加時用的直撥方匡模板
+    getColumn(stream) {
+        return `
+          <div class='col'>
+            <div class='preview'>
+              <div class='placeholder'></div>
+              <img src='${stream.preview.medium}' onload='this.style.opacity=1'/>
+            </div>
+            <div class='bottom'>
+              <div class="avatar">
+                <img class='avatar_img' src='${stream.channel.logo}' />
+              </div>
+              <div class='intro'>
+                <div class='channel_name'>${stream.channel.display_name}</div>
+                <div class='owner_name'>${stream.channel.name}</div>
+              </div>
+            </div>
+          </div>  
+          `
+    }
+
+    // 在改變語言時移除舊有語言的直撥方匡
+    remove_all_child_element() {
+        let node = document.querySelector(".row");
+        while (node.firstChild) {
+            node.removeChild(node.firstChild);
+        }
+    }
+}
+let render_handler = new Render_handler()
+
+
 export {
     scroll_condition,
     twitchApi,
-    i18n_handler
+    i18n_handler,
+    render_handler
 }
