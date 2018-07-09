@@ -1,10 +1,5 @@
 import i18n from './i18n/index'
-import {scroll_condition, TwitchApi} from './util'
-
-//當前頁數
-let currentPage = 0;
-//確保每次ajax玩才會再發一次
-let isLoading = false;
+import {scroll_condition, twitchApi} from './util'
 
 // 初始語言
 let language_status = 'zh-tw';
@@ -25,7 +20,7 @@ window.onload = () => {
     // 符合到底的條件
     if (scroll_condition.onButtom()) {
       // 如果沒在載入的話，做載入的動作
-      if (!isLoading) {
+      if (!twitchApi.isLoading) {
         appendData();
       }
     }
@@ -52,23 +47,22 @@ let change_language_status = (language) => {
   remove_all_child_element()
 
   // init_page_status
-  currentPage = 0
+  twitchApi.currentPage = 0
   appendData()
 }
 
 // 用來結合 HttpRequest 和 插入 HTML 內容的函式
 let appendData = () => {
-  let twitchApi = new TwitchApi(language_status,(err, data) => {
+  twitchApi.sendHttpRequest(language_status,(err, data) => {
     const { streams } = data;
     const row = document.querySelector('.row');
     for (let stream of streams) {
       //插入element string到row的最後一個子項
       row.insertAdjacentHTML('beforeend', getColumn(stream));
     }
-    currentPage += 20;
-    isLoading = false;
+    twitchApi.currentPage += 20;
+    twitchApi.isLoading = false;
   });
-  twitchApi.sendHttpRequest()
 }
 
 // 準備用來增加HTML的載入動作

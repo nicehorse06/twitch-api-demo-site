@@ -32,12 +32,10 @@ let scroll_condition = new Scroll
 
 
 class TwitchApi {
-    constructor(language_status ,callback) {
+    constructor() {
         // 當前頁數
         this.isLoading = false
         this.currentPage = 0
-        this.language_status = language_status
-        this.callback = callback
     }
 
     // 把 api url跟參數合併的函式
@@ -54,7 +52,7 @@ class TwitchApi {
         return url
     }
 
-    sendHttpRequest(callback){
+    sendHttpRequest(language_status, callback){
         const client_id = '80stfocyvne9dzzxyvz4j4x9yl75bd';
         const game = 'League%20of%20Legends';
         let basetUrl = 'https://api.twitch.tv/kraken/streams/';
@@ -62,7 +60,7 @@ class TwitchApi {
             'game': game,
             'client_id': client_id,
             'offset': this.currentPage,
-            'language': this.language_status,
+            'language': language_status,
         }
         let targetUrl = this.url_maker(basetUrl, urlPara);
     
@@ -70,14 +68,15 @@ class TwitchApi {
         this.isLoading = true;
         request.open("GET", targetUrl);
         request.onload = () => {
-            this.callback(null, JSON.parse(request.responseText));
+            callback(null, JSON.parse(request.responseText));
         };
         request.send();
     }
 }
+let twitchApi = new TwitchApi()
 
 
 export {
     scroll_condition,
-    TwitchApi
+    twitchApi
 }
