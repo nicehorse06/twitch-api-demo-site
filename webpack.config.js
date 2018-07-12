@@ -12,6 +12,10 @@ module.exports = {
             presets: ['env']  // 所有語法
           }
         }
+      },
+      {
+        use: ["style-loader", "css-loader"],  // css-loader 讓 Webpack 有能力來處理 CSS 的 Loader，而 style-loader 則是會將處理後的 CSS 套用到你的頁面。
+        test: /\.css$/
       }
     ]
   },

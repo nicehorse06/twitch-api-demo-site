@@ -1,5 +1,6 @@
 import { scroll_condition, twitchApi, i18n_handler, render_handler } from './util'
 import { Language } from './constants'
+import '../style/main.css'
 
 window.onload = () => {
   let page_status_handler = new Page_status_handler()
