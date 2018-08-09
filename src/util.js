@@ -63,13 +63,10 @@ class TwitchApi {
         }
         let targetUrl = this.url_maker(Twitch.basetUrl, urlPara)
 
-        let request = new XMLHttpRequest()
-        this.isLoading = true
-        request.open("GET", targetUrl)
-        request.onload = () => {
-            callback(null, JSON.parse(request.responseText))
-        }
-        request.send()
+        // promise 物件成功時用 then 取用上一個函式的回傳值，如果失敗用catch捕獲
+        http_get(targetUrl)
+        .then(responseText =>{callback(null, JSON.parse(responseText))})
+        .catch(error =>{ console.error("Failed!", error);})
     }
 
     increase_current_page(){
@@ -78,6 +75,39 @@ class TwitchApi {
 }
 let twitchApi = new TwitchApi()
 
+// todo 之後可以改寫為class
+function http_get(url) {
+    // Return a new promise.
+    return new Promise(function(resolve, reject) {
+      // Do the usual XHR stuff
+      var req = new XMLHttpRequest();
+      req.open('GET', url);
+  
+      req.onload = function() {
+        // This is called even on 404 etc
+        // so check the status
+        if (req.status == 200) {
+          // Resolve the promise with the response text
+          resolve(req.responseText);
+          // 也可以用 req.response
+          // 差別參閱：https://stackoverflow.com/questions/46751610/whats-the-difference-bertween-xhr-response-and-xhr-responsetext-in-xmlhttpreque
+        }
+        else {
+          // Otherwise reject with the status text
+          // which will hopefully be a meaningful error
+          reject(Error(req.statusText));
+        }
+      };
+  
+      // Handle network errors
+      req.onerror = function() {
+        reject(Error("Network Error"));
+      };
+  
+      // Make the request
+      req.send();
+    });
+}
 
 class I18n_handler {
     constructor() {
