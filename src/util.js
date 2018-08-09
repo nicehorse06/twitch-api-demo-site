@@ -54,18 +54,24 @@ class TwitchApi {
         return url
     }
 
-    sendHttpRequest(language_status, callback) {
-        let urlPara = {
+    // 把設定值組成 url
+    combine_config_baseUrl_to_targetUrl(language_status){
+        return this.url_maker(Twitch.basetUrl, {
             'game': Twitch.gameInfo,
             'client_id': Twitch.client_id,
             'offset': this.currentPage,
             'language': language_status,
-        }
-        let targetUrl = this.url_maker(Twitch.basetUrl, urlPara)
+        })
+    }
+
+    sendHttpRequest(language_status) {
+        let targetUrl = this.combine_config_baseUrl_to_targetUrl(language_status)
 
         // promise 物件成功時用 then 取用上一個函式的回傳值，如果失敗用catch捕獲
-        http_get(targetUrl)
-        .then(responseText =>{callback(null, JSON.parse(responseText))})
+        // 由於 JSON.parse() 採用單一參數並返回改變的值，因此我們可以將其簡化爲：JSON.parse
+        // 參閱 https://developers.google.com/web/fundamentals/primers/promises
+        return http_get(targetUrl)
+        .then(JSON.parse)  
         .catch(error =>{ console.error("Failed!", error);})
     }
 

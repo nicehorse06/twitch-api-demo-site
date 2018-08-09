@@ -56,14 +56,16 @@ class Page_status_handler {
   // 增加直撥匡，用來結合 HttpRequest 和 插入 HTML 內容的函式
   appendData() {
     twitchApi.increase_current_page()
-    twitchApi.sendHttpRequest(i18n_handler.status, (err, data) => {
+    twitchApi.sendHttpRequest(i18n_handler.status)
+    .then((data) =>{
       const { streams } = data
       const row = document.querySelector('.row')
       for (let stream of streams) {
         //插入element string到row的最後一個子項
         row.insertAdjacentHTML('beforeend', render_handler.getColumn(stream))
       }
-      twitchApi.isLoading = false
+      twitchApi.isLoading = false     
     })
+    .catch(error =>{ console.error("Failed!", error);})
   }
 }
