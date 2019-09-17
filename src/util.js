@@ -55,7 +55,7 @@ class TwitchApi {
     }
 
     // 把設定值組成 url
-    combine_config_baseUrl_to_targetUrl(language_status){
+    combine_config_baseUrl_to_targetUrl(language_status) {
         return this.url_maker(Twitch.basetUrl, {
             'game': Twitch.gameInfo,
             'client_id': Twitch.client_id,
@@ -71,11 +71,11 @@ class TwitchApi {
         // 由於 JSON.parse() 採用單一參數並返回改變的值，因此我們可以將其簡化爲：JSON.parse
         // 參閱 https://developers.google.com/web/fundamentals/primers/promises
         return http_get(targetUrl)
-        .then(JSON.parse)  
-        .catch(error =>{ console.error("Failed!", error);})
+            .then(JSON.parse)
+            .catch(error => { console.error("Failed!", error); })
     }
 
-    increase_current_page(){
+    increase_current_page() {
         this.currentPage += 20
     }
 }
@@ -84,34 +84,37 @@ let twitchApi = new TwitchApi()
 // todo 之後可以改寫為class
 function http_get(url) {
     // Return a new promise.
-    return new Promise(function(resolve, reject) {
-      // Do the usual XHR stuff
-      var req = new XMLHttpRequest();
-      req.open('GET', url);
-  
-      req.onload = function() {
-        // This is called even on 404 etc
-        // so check the status
-        if (req.status == 200) {
-          // Resolve the promise with the response text
-          resolve(req.responseText);
-          // 也可以用 req.response
-          // 差別參閱：https://stackoverflow.com/questions/46751610/whats-the-difference-bertween-xhr-response-and-xhr-responsetext-in-xmlhttpreque
-        }
-        else {
-          // Otherwise reject with the status text
-          // which will hopefully be a meaningful error
-          reject(Error(req.statusText));
-        }
-      };
-  
-      // Handle network errors
-      req.onerror = function() {
-        reject(Error("Network Error"));
-      };
-  
-      // Make the request
-      req.send();
+    return new Promise(function (resolve, reject) {
+        // Do the usual XHR stuff
+        var req = new XMLHttpRequest();
+        req.open('GET', url);
+
+        // v5 API的用法要在HTTP Header上加上 Accept:application/vnd.twitchtv.v5+json
+        req.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json')
+
+        req.onload = function () {
+            // This is called even on 404 etc
+            // so check the status
+            if (req.status == 200) {
+                // Resolve the promise with the response text
+                resolve(req.responseText);
+                // 也可以用 req.response
+                // 差別參閱：https://stackoverflow.com/questions/46751610/whats-the-difference-bertween-xhr-response-and-xhr-responsetext-in-xmlhttpreque
+            }
+            else {
+                // Otherwise reject with the status text
+                // which will hopefully be a meaningful error
+                reject(Error(req.statusText));
+            }
+        };
+
+        // Handle network errors
+        req.onerror = function () {
+            reject(Error("Network Error"));
+        };
+
+        // Make the request
+        req.send();
     });
 }
 
