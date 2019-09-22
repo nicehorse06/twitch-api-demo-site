@@ -139,7 +139,9 @@ class Render_handler {
           <div class='col'>
             <div class='preview'>
               <div class='placeholder'></div>
-              <img src='${stream.preview.medium}' onload='this.style.opacity=1'/>
+              <a href="${stream.channel.url}" target="_blank">
+                <img src='${stream.preview.medium}' onload='this.style.opacity=1'/>
+              </a>
             </div>
             <div class='bottom'>
               <div class="avatar">
