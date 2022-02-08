@@ -1,4 +1,8 @@
 # twitch API的應用實做專案
+
+## todo
+* 須更新 Twitch API 版本
+
 ## [Github page url](https://nicehorse06.github.io/twitch-api-demo-site/dist/index.html)
 
 * bundle的位置為dist/mian.js
